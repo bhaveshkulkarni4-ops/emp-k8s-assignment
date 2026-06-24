@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: employee-config
+
+data:
+  APP_NAME: Employee Application
+  DB_NAME: employee_db
+  ENVIRONMENT: Development
