@@ -1,155 +1,183 @@
-# emp-k8s-assignment
-# Employee Management Application Deployment on Google Kubernetes Engine
+# Employee Management Application on Google Kubernetes Engine (GKE)
 
-## 1. Project Overview
+## Assignment Details
 
-This project demonstrates the deployment of a containerized Employee Management application on Google Kubernetes Engine (GKE) using Kubernetes best practices. The application is packaged as a Docker container, pushed to Docker Hub, and deployed on a GKE Standard Cluster. The solution includes persistent storage for the MySQL database, secure configuration management, external application access through Ingress, and automatic scaling using Horizontal Pod Autoscaler (HPA).
+**Assignment:** Kubernetes and DevOps Advance + FinOps (Cloud)
 
----
+**Prepared By:** Bhavesh Kulkarni
 
-# 2. Technology Stack
-
-* Python Flask
-* MySQL 8.0
-* Docker
-* Docker Hub
-* Google Kubernetes Engine (GKE)
-* Kubernetes
-* GitHub
+**Employee ID:** 3175273
 
 ---
 
-# 3. Kubernetes Components Used
+# Project Overview
 
-| Component                     | Purpose                                                        |
-| ----------------------------- | -------------------------------------------------------------- |
-| Deployment                    | Deploys and manages Employee application pods                  |
-| StatefulSet                   | Deploys MySQL database with stable storage                     |
-| Service                       | Exposes the application internally within the cluster          |
-| Ingress                       | Provides external access through Google Cloud Load Balancer    |
-| ConfigMap                     | Stores application configuration                               |
-| Secret                        | Stores database credentials securely                           |
-| Persistent Volume Claim (PVC) | Provides persistent storage for MySQL                          |
-| Horizontal Pod Autoscaler     | Automatically scales application pods based on CPU utilization |
+This project demonstrates the deployment of a Dockerized Employee Management Application on Google Kubernetes Engine (GKE) using Kubernetes best practices. The application is deployed with high availability, persistent storage, secure configuration management, external access through Ingress, and automatic scaling using Horizontal Pod Autoscaler (HPA).
 
 ---
 
-# 4. Deployment Steps
+# Repository Details
 
-## Step 1
+## GitHub Repository
 
-Build Docker Image
+https://github.com/bhaveshkulkarni4-ops/emp-k8s-assignment
 
+## Docker Hub Repository
+
+https://hub.docker.com/r/bhaveshkulkarni4/employee-app
+
+**Docker Image**
+
+bhaveshkulkarni4/employee-app:v1
+
+---
+
+# Technology Stack
+
+- Python Flask
+- MySQL 8.0
+- Docker
+- Docker Hub
+- Kubernetes
+- Google Kubernetes Engine (GKE)
+- GitHub
+
+---
+
+# Project Structure
+
+```
+emp-k8s-assignment/
+│
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── README.md
+│
+└── k8s/
+    ├── deployment.yaml
+    ├── service.yaml
+    ├── ingress.yaml
+    ├── statefulset.yaml
+    ├── configmap.yaml
+    ├── secret.yaml
+    ├── pvc.yaml
+    └── hpa.yaml
+```
+
+---
+
+# Kubernetes Resources Implemented
+
+- Deployment
+- StatefulSet
+- Service
+- Ingress
+- ConfigMap
+- Secret
+- Persistent Volume Claim (PVC)
+- Horizontal Pod Autoscaler (HPA)
+
+---
+
+# Deployment Steps
+
+## 1. Build Docker Image
+
+```bash
 docker build -t employee-app:v1 .
+```
 
-## Step 2
+## 2. Tag Docker Image
 
-Push Docker Image
-
+```bash
 docker tag employee-app:v1 bhaveshkulkarni4/employee-app:v1
+```
 
+## 3. Push Docker Image
+
+```bash
 docker push bhaveshkulkarni4/employee-app:v1
+```
 
-## Step 3
+## 4. Deploy Kubernetes Resources
 
-Create Kubernetes Resources
-
+```bash
 kubectl apply -f k8s/configmap.yaml
-
 kubectl apply -f k8s/secret.yaml
-
 kubectl apply -f k8s/pvc.yaml
-
 kubectl apply -f k8s/statefulset.yaml
-
 kubectl apply -f k8s/deployment.yaml
-
 kubectl apply -f k8s/service.yaml
-
 kubectl apply -f k8s/ingress.yaml
-
 kubectl apply -f k8s/hpa.yaml
+```
 
 ---
 
-# 5. Architecture
+# Architecture
 
-Internet
-
-↓
-
-Google Cloud Load Balancer
-
-↓
-
-Kubernetes Ingress
-
-↓
-
-Kubernetes Service
-
-↓
-
-Employee Application Deployment (2 Replicas)
-
-↓
-
-MySQL StatefulSet
-
-↓
-
-Persistent Volume
+```
+                Internet
+                    │
+                    ▼
+     Google Cloud Load Balancer
+                    │
+                    ▼
+               Kubernetes Ingress
+                    │
+                    ▼
+             Kubernetes Service
+                    │
+                    ▼
+     Employee Application (2 Pods)
+                    │
+                    ▼
+          MySQL StatefulSet
+                    │
+                    ▼
+        Persistent Volume Claim
+```
 
 ---
 
-# 6. Features Implemented
+# Features
 
-* Dockerized Employee application
-* Docker image published to Docker Hub
-* Kubernetes Deployment with two replicas
-* MySQL StatefulSet
-* Persistent Volume Claim for database persistence
-* ConfigMap for configuration management
-* Secret for secure credential storage
-* Kubernetes Service for internal communication
-* Kubernetes Ingress for external access
-* Horizontal Pod Autoscaler (HPA)
-* Google Kubernetes Engine deployment
-
----
-
-# 7. Assumptions
-
-* Docker image is available on Docker Hub.
-* Google Kubernetes Engine Standard Cluster is used.
-* Dynamic Persistent Volume provisioning is enabled.
-* MySQL is used as the backend database.
-* Application listens on port 5000.
-* Service exposes the application on port 80.
-* Google Cloud Load Balancer is automatically created through Kubernetes Ingress.
+- Dockerized Employee Management Application
+- Google Kubernetes Engine (GKE) Deployment
+- Deployment with Two Replicas
+- MySQL StatefulSet
+- Persistent Storage using PVC
+- ConfigMap for Application Configuration
+- Secret for Database Credentials
+- Service for Internal Communication
+- Ingress for External Access
+- Horizontal Pod Autoscaler (HPA)
 
 ---
 
-# 8. FinOps Considerations
+# Assumptions
 
-* Used e2-medium worker nodes to balance cost and performance.
-* Configured Horizontal Pod Autoscaler to scale only when required.
-* Used Persistent Volume instead of local storage to avoid data loss.
-* Docker image is reused from Docker Hub to reduce deployment time.
-* GKE resources will be deleted after assignment completion to prevent unnecessary cloud costs.
-
----
-
-# 9. Challenges Faced
-
-* MySQL pod remained in ContainerCreating state due to the original node becoming unavailable.
-* Persistent Volume attachment prevented the pod from starting on another node.
-* Created a new node pool and removed the unavailable node.
-* Updated the Ingress configuration by removing host-based routing to allow access through the external IP.
-* Successfully validated application deployment after resolving infrastructure issues.
+- Google Kubernetes Engine Standard Cluster is used.
+- Docker image is hosted on Docker Hub.
+- Dynamic Persistent Volume provisioning is enabled.
+- MySQL stores application data.
+- Application runs on port 5000.
+- Service exposes port 80.
+- Ingress creates a Google Cloud Load Balancer.
 
 ---
 
-# 10. Outcome
+# FinOps Considerations
 
-The Employee Management application was successfully deployed on Google Kubernetes Engine. All Kubernetes resources including Deployment, StatefulSet, Service, Ingress, ConfigMap, Secret, Persistent Volume Claim, and Horizontal Pod Autoscaler were created successfully. The application is accessible through the Kubernetes Ingress and Google Cloud Load Balancer.
+- Used cost-effective GKE node configuration.
+- Configured Horizontal Pod Autoscaler for efficient resource utilization.
+- Used Persistent Volumes to ensure data persistence.
+- Docker image is reused from Docker Hub.
+- Cloud resources can be deleted after assignment completion to avoid unnecessary costs.
+
+---
+
+# Outcome
+
+The Employee Management Application was successfully deployed on Google Kubernetes Engine using Kubernetes best practices. The solution includes Deployment, StatefulSet, Service, Ingress, ConfigMap, Secret, Persistent Volume Claim, and Horizontal Pod Autoscaler, providing a scalable and resilient deployment.
