@@ -24,7 +24,7 @@ https://github.com/bhaveshkulkarni4-ops/emp-k8s-assignment
 
 ## Docker Hub Repository
 
-https://hub.docker.com/r/bhaveshkulkarni4/employee-app
+[https://hub.docker.com/r/bhaveshkulkarni4/employee-app](https://hub.docker.com/repository/docker/bhaveshkulkarni4/employee-app/general)
 
 **Docker Image**
 
